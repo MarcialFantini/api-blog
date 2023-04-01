@@ -1,12 +1,15 @@
 import bodyParser from "body-parser";
 import Express from "express";
 import dotenv from "dotenv";
+import { routerSetUp } from "./routes/router";
 
 dotenv.config();
 
 const App = Express();
 
 App.use(bodyParser.json());
+
+routerSetUp(App);
 
 const portApp = process.env.PORT_APP || 4900;
 

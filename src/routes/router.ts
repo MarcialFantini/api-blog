@@ -1,7 +1,9 @@
 import { Express, Router } from "express";
 import { routeBlogs } from "./blogsRoute";
+import { userRouter } from "./userRoute";
+import { routerComment } from "./commentRoute";
 
-const routerSetUp = (app: Express) => {
+export const routerSetUp = (app: Express) => {
   // router ROOT
   const router = Router();
 
@@ -16,4 +18,6 @@ const routerSetUp = (app: Express) => {
   router.use("/v1", route_v1);
 
   route_v1.use("/blogs", routeBlogs);
+  route_v1.use("/user", userRouter);
+  route_v1.use("/comment", routerComment);
 };
