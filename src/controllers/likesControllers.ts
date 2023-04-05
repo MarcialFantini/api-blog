@@ -10,19 +10,25 @@ export const createLikeController = async (
 ) => {
   try {
     const like: LikeCreate = {
-      id_user: req.body.id_user,
-      id_comment: req.body.id_comment,
+      id_user: req.body.Token.id,
+      id_blog: req.body.id_blog,
     };
     const createdLike = await service.createLike(like);
 
+    console.log(createdLike);
+
+    if (!createdLike) {
+      console.log("ha");
+      return res
+        .status(500)
+        .json({ message: "error to created the like", status: 500 });
+    }
+
     res.status(201).json({
       message: "created like",
-      data: createdLike,
     });
   } catch (error) {
-    res.status(500).json({
-      message: error,
-    });
+    res.status(500).json(error);
   }
 };
 

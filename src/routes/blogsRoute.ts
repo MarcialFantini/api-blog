@@ -6,13 +6,14 @@ import {
   getBlogsController,
   updateBlogsController,
 } from "../controllers/blogsControllers";
+import { authMiddlewareAdmin } from "../middlewares/autAdmin";
 
 const routeBlogs = Router();
 
-routeBlogs.post("/create", createBlogsController);
-routeBlogs.get("/:page/:limit", getBlogsController);
+routeBlogs.post("/create", authMiddlewareAdmin, createBlogsController);
+routeBlogs.get("/page/:page", getBlogsController);
 routeBlogs.get("/:id", getBlogController);
-routeBlogs.put("/:id", updateBlogsController);
-routeBlogs.delete("/:id", deleteBlogsController);
+routeBlogs.patch("/:id", authMiddlewareAdmin, updateBlogsController);
+routeBlogs.delete("/:id", authMiddlewareAdmin, deleteBlogsController);
 
 export { routeBlogs };

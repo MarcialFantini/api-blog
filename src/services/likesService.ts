@@ -1,16 +1,20 @@
 import { sequelize } from "../libs/sequelize";
 
-const LikeModel = sequelize.models.Like;
+const LikeModel = sequelize.models.Likes;
 
 export interface LikeCreate {
   id_user: number;
-  id_comment: number;
+  id_blog: number;
 }
 
 export class LikeService {
-  async createLike(body: LikeCreate) {
-    const like = await LikeModel.create({ ...body });
-    return like;
+  async createLike(like: LikeCreate) {
+    const [likeValues, created] = await LikeModel.findOrCreate({
+      where: { id_user: like.id_user, id_blog: like.id_blog },
+      defaults: { ...like },
+    });
+
+    return created;
   }
 
   async deleteLikeById(id: number) {

@@ -4,10 +4,11 @@ import {
   createLikeController,
   deleteLikeController,
 } from "../controllers/likesControllers";
+import { authUser } from "../middlewares/autUser";
 
 const likeRouter = Router();
 
-likeRouter.post("/likes", createLikeController);
-likeRouter.delete("/likes/:id", deleteLikeController);
+likeRouter.post("/", authUser, createLikeController);
+likeRouter.delete("/:id", authUser, deleteLikeController);
 
 export { likeRouter };

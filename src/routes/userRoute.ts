@@ -6,17 +6,18 @@ import {
   getUserController,
   updateUserController,
 } from "../controllers/userControllers";
+import { authMiddlewareAdmin } from "../middlewares/autAdmin";
 
 const userRouter = Router();
 
-userRouter.get("/", getAllUsersController);
+userRouter.get("/", authMiddlewareAdmin, getAllUsersController);
 
-userRouter.get("/:id", getUserController);
+userRouter.get("/:id", authMiddlewareAdmin, getUserController);
 
 userRouter.post("/", createUserController);
 
 userRouter.put("/:id", updateUserController);
 
-userRouter.delete("/:id", deleteUserController);
+userRouter.delete("/:id", authMiddlewareAdmin, deleteUserController);
 
 export { userRouter };

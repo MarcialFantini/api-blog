@@ -1,4 +1,8 @@
 import { sequelize } from "../libs/sequelize";
+import jwt from "jsonwebtoken";
+
+import bcrypt from "bcrypt";
+import { Op } from "sequelize";
 
 const UserModel = sequelize.models.User;
 
@@ -10,8 +14,23 @@ export interface UserCreate {
 }
 
 export class UserService {
+  async validUser(email: string) {
+    const user = await UserModel.findOne({
+      attributes: ["id", "role", "email", "password"],
+      where: { email: email },
+    });
+
+    return user;
+  }
+
   async createUser(body: UserCreate) {
-    const user = await UserModel.create({ ...body });
+    const user = await UserModel.create({
+      role: "user",
+      name: body.name,
+      password: await bcrypt.hash(body.password, 10),
+      email: body.email,
+      phone: body.phone,
+    });
     return user;
   }
 
@@ -26,7 +45,14 @@ export class UserService {
   }
 
   async getAllUsers() {
-    const users = await UserModel.findAll();
+    const users = await UserModel.findAll({
+      attributes: ["id", "name", "email", "phone", "role"],
+      where: {
+        role: {
+          [Op.ne]: "admin",
+        },
+      },
+    });
     return users;
   }
 

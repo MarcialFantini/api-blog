@@ -20,12 +20,15 @@ export const createUserController = async (
 
     res.status(201).json({
       message: "created user",
-      data: createdUser,
+      code: 201,
     });
-  } catch (error) {
-    res.status(500).json({
-      message: error,
-    });
+  } catch (error: any) {
+    if (error.message) {
+      return res.status(500).json({
+        message: error.message,
+      });
+    }
+    res.status(500).json({ message: "internal error" });
   }
 };
 

@@ -36,4 +36,9 @@ export const modelSchema = {
     allowNull: false,
     defaultValue: false,
   },
+  category: {
+    type: DataTypes.STRING,
+    allowNull: false,
+    defaultValue: "no category",
+  },
 };

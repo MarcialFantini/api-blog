@@ -2,6 +2,10 @@ import { Express, Router } from "express";
 import { routeBlogs } from "./blogsRoute";
 import { userRouter } from "./userRoute";
 import { routerComment } from "./commentRoute";
+import { likeRouter } from "./likeRoute";
+import { authRouter } from "./authJwt";
+import { routerContact } from "./contactRoute";
+import { imagesRoute } from "./imagesRoute";
 
 export const routerSetUp = (app: Express) => {
   // router ROOT
@@ -20,4 +24,8 @@ export const routerSetUp = (app: Express) => {
   route_v1.use("/blogs", routeBlogs);
   route_v1.use("/user", userRouter);
   route_v1.use("/comment", routerComment);
+  route_v1.use("/like", likeRouter);
+  route_v1.use("/", authRouter);
+  route_v1.use("/contact", routerContact);
+  route_v1.use("/images", imagesRoute);
 };

@@ -22,7 +22,7 @@ export const likeModels = {
     type: DataTypes.INTEGER,
     allowNull: false,
   },
-  id_comment: {
+  id_blog: {
     type: DataTypes.INTEGER,
     allowNull: false,
   },

@@ -26,4 +26,8 @@ export const modelComments = {
     type: DataTypes.INTEGER,
     allowNull: false,
   },
+  id_blog: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+  },
 };

@@ -1,3 +1,5 @@
+import { CommentsModel } from "../db/models/comentariesModel";
+import { LikesModel } from "../db/models/likesModel";
 import { sequelize } from "../libs/sequelize";
 
 const model = sequelize.models.Blogs;
@@ -23,28 +25,29 @@ export class BlogsService {
     return createdModel;
   }
 
-  async getAllBlogs(page: number, limit: number) {
-    const offset = (page - 1) * limit;
-    const blogs = await model.findAndCountAll({
-      where: { published: true },
-      limit: limit,
+  async getAllBlogs(page: number) {
+    const offset = (page - 1) * 20;
+    const blogs = await model.findAll({
+      limit: 20,
       offset: offset,
-      order: [["createdAt", "DESC"]],
+      attributes: ["id", "title", "content", "author"],
+      include: [{ model: LikesModel }, { model: CommentsModel }],
     });
     return blogs;
   }
 
   async getBlogById(id: number) {
     const blog = await model.findOne({
+      attributes: ["id", "title", "content", "author"],
+      include: [{ model: LikesModel }, { model: CommentsModel }],
       where: { id: id },
     });
     return blog;
   }
 
   async updateBlog(id: number, data: blogsUpdate) {
-    const [, [updatedBlog]] = await model.update(data, {
+    const updatedBlog = await model.update(data, {
       where: { id: id },
-      returning: true,
     });
     return updatedBlog;
   }

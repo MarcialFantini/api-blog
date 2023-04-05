@@ -3,7 +3,11 @@ import { sequelize } from "../libs/sequelize";
 const model = sequelize.models.Comments;
 
 export class CommentService {
-  async createComment(body: { content: string; id_user: number }) {
+  async createComment(body: {
+    content: string;
+    id_user: number;
+    id_blog: number;
+  }) {
     const newComment = await model.create({ ...body });
 
     return newComment;

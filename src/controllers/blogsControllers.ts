@@ -28,9 +28,8 @@ export const getBlogsController = async (
 ) => {
   try {
     const page = Number(req.params.page);
-    const limit = Number(req.params.limit);
 
-    const blogs = await service.getAllBlogs(page, limit);
+    const blogs = await service.getAllBlogs(page);
 
     res.status(200).json({
       message: "success",
