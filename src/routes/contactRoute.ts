@@ -9,7 +9,7 @@ import { authMiddlewareAdmin } from "../middlewares/autAdmin";
 
 const routerContact = express.Router();
 
-routerContact.post("/", authUser, createContact);
+routerContact.post("/", createContact);
 routerContact.get("/page/:page", authMiddlewareAdmin, getAllContacts);
 routerContact.get("/:id", authMiddlewareAdmin, getContactById);
 

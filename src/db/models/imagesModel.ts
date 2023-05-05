@@ -19,6 +19,6 @@ export const ImagesSchema = {
     autoIncrement: true,
     allowNull: false,
   },
-  url_img: { type: DataTypes.STRING, defaultValue: "", allowNull: false },
+  url_image: { type: DataTypes.STRING, defaultValue: "", allowNull: false },
   blog_id: { type: DataTypes.INTEGER, allowNull: false },
 };

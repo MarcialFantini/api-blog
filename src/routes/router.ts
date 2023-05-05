@@ -6,6 +6,8 @@ import { likeRouter } from "./likeRoute";
 import { authRouter } from "./authJwt";
 import { routerContact } from "./contactRoute";
 import { imagesRoute } from "./imagesRoute";
+import { productsRouter } from "./productsRoute";
+import { imagesProductRoute } from "./imagesProductRoute";
 
 export const routerSetUp = (app: Express) => {
   // router ROOT
@@ -28,4 +30,7 @@ export const routerSetUp = (app: Express) => {
   route_v1.use("/", authRouter);
   route_v1.use("/contact", routerContact);
   route_v1.use("/images", imagesRoute);
+  route_v1.use("/products/images", imagesProductRoute);
+
+  route_v1.use("/product", productsRouter);
 };

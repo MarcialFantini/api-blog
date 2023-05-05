@@ -8,7 +8,6 @@ export const createContact = async (req: Request, res: Response) => {
   try {
     const contact = await contactService.create({
       ...req.body,
-      id_user: req.body.Token.id,
     });
 
     if (!contact) {

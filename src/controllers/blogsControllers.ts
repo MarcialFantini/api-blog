@@ -1,7 +1,20 @@
 import { NextFunction, Response, Request } from "express";
 import { BlogsService } from "../services/blogsService";
+import { blogs } from "../../seeders/blogs";
 
 const service = new BlogsService();
+
+export const seeders = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    await service.createSeeders();
+  } catch (error) {
+    res.json({ message: "error" });
+  }
+};
 
 export const createBlogsController = async (
   req: Request,
@@ -114,6 +127,51 @@ export const deleteBlogsController = async (
   } catch (error) {
     res.status(500).json({
       message: error,
+    });
+  }
+};
+
+export const getLastBlogsController = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const lastBlogs = await service.getLastBlogs();
+
+    res.json({ message: lastBlogs, status: 200 });
+  } catch (error) {
+    res.json({
+      message: "Error",
+      status: 500,
+    });
+  }
+};
+
+export const getBlogsCustomLimit = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const limit = Number(req.params.limit);
+
+    const blogs = await service.getBlogsLimitsCustom(limit);
+    if (!blogs) {
+      return res.json({
+        message: "Error",
+        code: 500,
+      });
+    }
+
+    res.json({
+      message: blogs,
+      code: 200,
+    });
+  } catch (error) {
+    res.json({
+      message: error,
+      code: 500,
     });
   }
 };

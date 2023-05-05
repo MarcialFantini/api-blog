@@ -50,9 +50,9 @@ export const autUser = async (
       { expiresIn: "12h" }
     );
 
-    res.json({ token });
+    res.json({ token, status: 200, isAdmin: user.role === "admin" });
   } catch (error) {
-    res.status(500).json({ message: error });
+    res.status(500).json({ message: error, status: 500 });
   }
 };
 

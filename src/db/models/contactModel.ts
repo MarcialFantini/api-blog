@@ -19,7 +19,7 @@ export const ContactSchema = {
     autoIncrement: true,
     allowNull: false,
   },
-
-  id_user: { type: DataTypes.INTEGER, allowNull: false },
+  name: { type: DataTypes.STRING, allowNull: false },
+  email: { type: DataTypes.STRING, allowNull: false },
   message: { type: DataTypes.STRING, allowNull: false },
 };

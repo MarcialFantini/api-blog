@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from "express";
-import { ImagesService } from "../services/imagesService";
+import { ImagesProductsService } from "../services/imagesProductService";
 
-const serviceImg = new ImagesService();
+const serviceImg = new ImagesProductsService();
 
 export const saveImagesController = async (
   req: Request,
@@ -17,9 +17,9 @@ export const saveImagesController = async (
       return file.path;
     });
 
-    await serviceImg.saveImages(imagePaths, req.body.blog_id);
+    const data = await serviceImg.saveImages(imagePaths, req.body.product_id);
 
-    res.status(201).json({ message: "Save Images" });
+    res.status(201).json({ message: "Save Images", data });
   } catch (error) {
     res.status(500).json({ message: error });
   }
@@ -34,16 +34,16 @@ export const deletedImageController = async (
     const id: number = Number(req.params.id);
 
     if (!Number.isInteger(id)) {
-      res.status(500).json({ message: "no params ID", status: 500 });
+      return res.status(500).json({ message: "no params ID", status: 500 });
     }
 
     const data = await serviceImg.deleteImage(id);
 
     if (data.status !== 200) {
-      throw new Error("error");
+      return res.status(data.status).json({ ...data });
     }
 
-    res.status(500).json({ message: "no params ID", status: 500 });
+    res.json(data);
   } catch (error) {
     res.status(500).json({ message: error, status: 500 });
   }
@@ -59,7 +59,11 @@ export const sendImgController = async (
 
     const pathImg = await serviceImg.sendImage(id);
 
-    res.sendFile(pathImg.message, (err) => console.log(err));
+    if (pathImg.status !== 200) {
+      return res.status(pathImg.status).json(pathImg);
+    }
+
+    res.sendFile(pathImg.message, (err) => res.json(err));
   } catch (error) {
     res.status(500).json({ message: "internal error", status: 500 });
   }

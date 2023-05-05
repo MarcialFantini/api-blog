@@ -1,4 +1,6 @@
+import { blogs } from "../../seeders/blogs";
 import { CommentsModel } from "../db/models/comentariesModel";
+import { ImagesModel } from "../db/models/imagesModel";
 import { LikesModel } from "../db/models/likesModel";
 import { sequelize } from "../libs/sequelize";
 
@@ -20,9 +22,42 @@ interface blogsUpdate {
 }
 
 export class BlogsService {
+  async createSeeders() {
+    for (let blog in blogs) {
+      await model.create(blogs[blog]);
+    }
+  }
+
   async create(data: blogsCreate | any) {
     const createdModel = await model.create(data);
     return createdModel;
+  }
+
+  async getLastBlogs() {
+    const lastBlogs = await model.findAll({
+      limit: 3,
+      include: [{ model: ImagesModel, attributes: ["id"] }],
+      order: [["createdAt", "DESC"]],
+    });
+
+    return lastBlogs;
+  }
+
+  async getBlogsLimitsCustom(limit: number) {
+    console.log(limit);
+    const blogs = await model.findAll({
+      order: [["createdAt", "DESC"]],
+
+      limit: limit,
+
+      include: [
+        { model: LikesModel },
+        { model: CommentsModel },
+        { model: ImagesModel, attributes: ["id"] },
+      ],
+    });
+
+    return blogs;
   }
 
   async getAllBlogs(page: number) {
@@ -31,7 +66,11 @@ export class BlogsService {
       limit: 20,
       offset: offset,
       attributes: ["id", "title", "content", "author"],
-      include: [{ model: LikesModel }, { model: CommentsModel }],
+      include: [
+        { model: LikesModel },
+        { model: CommentsModel },
+        { model: ImagesModel, attributes: ["id"] },
+      ],
     });
     return blogs;
   }
@@ -39,7 +78,11 @@ export class BlogsService {
   async getBlogById(id: number) {
     const blog = await model.findOne({
       attributes: ["id", "title", "content", "author"],
-      include: [{ model: LikesModel }, { model: CommentsModel }],
+      include: [
+        { model: LikesModel },
+        { model: CommentsModel },
+        { model: ImagesModel, attributes: ["id"] },
+      ],
       where: { id: id },
     });
     return blog;

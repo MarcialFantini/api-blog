@@ -14,7 +14,7 @@ userRouter.get("/", authMiddlewareAdmin, getAllUsersController);
 
 userRouter.get("/:id", authMiddlewareAdmin, getUserController);
 
-userRouter.post("/", createUserController);
+userRouter.post("/create", createUserController);
 
 userRouter.put("/:id", updateUserController);
 

@@ -5,6 +5,11 @@ import { CommentsModel, modelComments } from "./models/comentariesModel";
 import { LikesModel, likeModels } from "./models/likesModel";
 import { ContactModel, ContactSchema } from "./models/contactModel";
 import { ImagesModel, ImagesSchema } from "./models/imagesModel";
+import { ProductModel, productSchema } from "./models/products";
+import {
+  ImagesModelProducts,
+  ImagesProductsSchema,
+} from "./models/imagesProductModels";
 
 export const setUpModels = (sequelize: Sequelize) => {
   UserModel.init(UserSchema, UserModel.config(sequelize));
@@ -13,6 +18,16 @@ export const setUpModels = (sequelize: Sequelize) => {
   LikesModel.init(likeModels, LikesModel.config(sequelize));
   ContactModel.init(ContactSchema, ContactModel.config(sequelize));
   ImagesModel.init(ImagesSchema, ImagesModel.config(sequelize));
+  ImagesModelProducts.init(
+    ImagesProductsSchema,
+    ImagesModelProducts.config(sequelize)
+  );
+  ProductModel.init(productSchema, ProductModel.config(sequelize));
+
+  ProductModel.hasMany(ImagesModelProducts, {
+    foreignKey: "product_id",
+  });
+  ImagesModelProducts.belongsTo(ProductModel, { foreignKey: "product_id" });
 
   UserModel.hasMany(CommentsModel, {
     foreignKey: "id_user",

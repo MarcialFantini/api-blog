@@ -1,10 +1,15 @@
 import { Router } from "express";
 import { upload } from "../middlewares/multerUpload";
-import { saveImagesController } from "../controllers/imagesControllers";
+import {
+  deletedImageController,
+  saveImagesController,
+  sendImgController,
+} from "../controllers/imagesControllers";
 
 const imagesRoute = Router();
 
 imagesRoute.post("/save", upload.array("images"), saveImagesController);
-imagesRoute.delete("deleted/one/:id");
+imagesRoute.delete("/delete/one/:id", deletedImageController);
+imagesRoute.get("/one/:id", sendImgController);
 
 export { imagesRoute };
