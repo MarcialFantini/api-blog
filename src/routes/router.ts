@@ -8,6 +8,7 @@ import { routerContact } from "./contactRoute";
 import { imagesRoute } from "./imagesRoute";
 import { productsRouter } from "./productsRoute";
 import { imagesProductRoute } from "./imagesProductRoute";
+import { orderRouter } from "./orderProductRouter";
 
 export const routerSetUp = (app: Express) => {
   // router ROOT
@@ -33,4 +34,6 @@ export const routerSetUp = (app: Express) => {
   route_v1.use("/products/images", imagesProductRoute);
 
   route_v1.use("/product", productsRouter);
+
+  route_v1.use("/orders/products", orderRouter);
 };

@@ -3,7 +3,7 @@ import { sequelize } from "../libs/sequelize";
 
 import fs from "fs";
 
-const modelImages = sequelize.models.ImagesModel;
+export const modelImages = sequelize.models.ImagesModel;
 
 interface imagesRow {
   id: number;

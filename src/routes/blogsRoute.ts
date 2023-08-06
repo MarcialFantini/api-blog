@@ -5,6 +5,7 @@ import {
   getBlogController,
   getBlogsController,
   getBlogsCustomLimit,
+  getLastBlog,
   getLastBlogsController,
   seeders,
   updateBlogsController,
@@ -20,6 +21,7 @@ routeBlogs.delete("/:id", authMiddlewareAdmin, deleteBlogsController);
 // Rutas públicas sin protección de autenticación
 routeBlogs.get("/page/:page", getBlogsController);
 routeBlogs.get("/one/:id", getBlogController);
+routeBlogs.get("/last/one", getLastBlog);
 routeBlogs.get("/last", getLastBlogsController);
 routeBlogs.get("/custom/:limit", getBlogsCustomLimit);
 routeBlogs.post("/seeders", seeders);

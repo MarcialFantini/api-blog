@@ -7,7 +7,7 @@ export const createProduct = async (productData: ProductAttributes) => {
     const product = await productService.createProduct(productData);
     return {
       error: false,
-      message: "Product created successfully.",
+      message: product,
       code: 201,
     };
   } catch (error) {
@@ -27,7 +27,7 @@ export const updateProduct = async (
     const product = await productService.updateProduct(productId, productData);
     return {
       error: false,
-      message: "Product updated successfully.",
+      message: product,
       code: 200,
     };
   } catch (error) {
@@ -81,6 +81,7 @@ export const getProduct = async (productId: number) => {
       error: false,
       message: "Product retrieved successfully.",
       code: 200,
+      body: product,
     };
   } catch (error) {
     return {

@@ -1,6 +1,10 @@
+import { ImagesModelProducts } from "../db/models/imagesProductModels";
 import { sequelize } from "../libs/sequelize";
+import { ImagesService } from "./imagesService";
 
 const ProductModel = sequelize.models.ProductModel;
+
+const serviceImage = new ImagesService();
 
 export interface ProductAttributes {
   id: number;
@@ -55,7 +59,13 @@ export class ProductService {
       const products = await ProductModel.findAll({
         limit,
         offset: page * limit,
+        include: [
+          {
+            model: ImagesModelProducts,
+          },
+        ],
       });
+
       return products;
     } catch (error) {
       throw new Error("Error getting products");

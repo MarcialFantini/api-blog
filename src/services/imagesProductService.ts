@@ -54,10 +54,12 @@ export class ImagesProductsService {
       return { message: "Imagen no encontrada", status: 404 };
     }
 
-    const pathComplete = "../../" + img.url_img;
+    const pathComplete = "../../../" + img.url_img;
 
     const normalizedPath = path.normalize(pathComplete);
     const pathImg = path.join(__dirname, normalizedPath);
+
+    console.log(pathImg);
 
     return {
       message: pathImg,

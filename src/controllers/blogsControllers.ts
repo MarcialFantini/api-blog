@@ -4,6 +4,17 @@ import { blogs } from "../../seeders/blogs";
 
 const service = new BlogsService();
 
+export interface BlogComplete {
+  id: number;
+  title: string;
+  content: string;
+  author: string;
+  published: boolean;
+  category: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
 export const seeders = async (
   req: Request,
   res: Response,
@@ -25,7 +36,7 @@ export const createBlogsController = async (
     const blog = await service.create(req.body);
 
     res.status(201).json({
-      message: "created blog",
+      message: blog.id,
     });
   } catch (error) {
     res.status(500).json({
@@ -146,6 +157,18 @@ export const getLastBlogsController = async (
       status: 500,
     });
   }
+};
+
+export const getLastBlog = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const last = await service.getLastBlog();
+
+    res.json(last);
+  } catch (error) {}
 };
 
 export const getBlogsCustomLimit = async (

@@ -28,7 +28,6 @@ const sequelize = new Sequelize(
     await sequelize.sync({ alter: true });
   } catch (error) {
     console.log("error with connect");
-    console.log(error);
   }
 })();
 

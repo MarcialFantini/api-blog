@@ -58,12 +58,11 @@ export const sendImgController = async (
     const id = Number(req.params.id);
 
     const pathImg = await serviceImg.sendImage(id);
-
     if (pathImg.status !== 200) {
       return res.status(pathImg.status).json(pathImg);
     }
 
-    res.sendFile(pathImg.message, (err) => res.json(err));
+    res.sendFile(pathImg.message);
   } catch (error) {
     res.status(500).json({ message: "internal error", status: 500 });
   }

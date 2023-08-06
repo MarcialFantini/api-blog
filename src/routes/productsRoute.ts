@@ -62,7 +62,7 @@ productsRouter.get("/one/:productId", async (req, res) => {
     const product = await getProduct(productId);
     res.json(product);
   } catch (error) {
-    res.status(500).json({ error: error });
+    res.status(500).json({ error: error, code: 500 });
   }
 });
 

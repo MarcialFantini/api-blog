@@ -1,4 +1,5 @@
 import { blogs } from "../../seeders/blogs";
+import { BlogComplete } from "../controllers/blogsControllers";
 import { CommentsModel } from "../db/models/comentariesModel";
 import { ImagesModel } from "../db/models/imagesModel";
 import { LikesModel } from "../db/models/likesModel";
@@ -22,14 +23,30 @@ interface blogsUpdate {
 }
 
 export class BlogsService {
+  async getLastBlog() {
+    try {
+      const lastBlog: BlogComplete = await model.findOne<BlogComplete | any>({
+        order: [["createdAt", "DESC"]],
+        include: [{ model: ImagesModel, attributes: ["id"] }],
+      });
+
+      return lastBlog;
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   async createSeeders() {
     for (let blog in blogs) {
       await model.create(blogs[blog]);
     }
   }
 
-  async create(data: blogsCreate | any) {
-    const createdModel = await model.create(data);
+  async create(data: blogsCreate | any): Promise<BlogComplete> {
+    const createdModel: BlogComplete = await model.create<
+      blogsCreate | any,
+      any
+    >(data);
     return createdModel;
   }
 
@@ -65,7 +82,7 @@ export class BlogsService {
     const blogs = await model.findAll({
       limit: 20,
       offset: offset,
-      attributes: ["id", "title", "content", "author"],
+      order: [["createdAt", "DESC"]],
       include: [
         { model: LikesModel },
         { model: CommentsModel },
@@ -77,12 +94,13 @@ export class BlogsService {
 
   async getBlogById(id: number) {
     const blog = await model.findOne({
-      attributes: ["id", "title", "content", "author"],
       include: [
         { model: LikesModel },
         { model: CommentsModel },
         { model: ImagesModel, attributes: ["id"] },
       ],
+      order: [["createdAt", "DESC"]],
+
       where: { id: id },
     });
     return blog;

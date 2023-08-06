@@ -10,6 +10,7 @@ import {
   ImagesModelProducts,
   ImagesProductsSchema,
 } from "./models/imagesProductModels";
+import { OrderProduct, modelOderProduct } from "./models/ordersProducts";
 
 export const setUpModels = (sequelize: Sequelize) => {
   UserModel.init(UserSchema, UserModel.config(sequelize));
@@ -23,6 +24,8 @@ export const setUpModels = (sequelize: Sequelize) => {
     ImagesModelProducts.config(sequelize)
   );
   ProductModel.init(productSchema, ProductModel.config(sequelize));
+
+  OrderProduct.init(modelOderProduct, OrderProduct.config(sequelize));
 
   ProductModel.hasMany(ImagesModelProducts, {
     foreignKey: "product_id",
@@ -55,4 +58,12 @@ export const setUpModels = (sequelize: Sequelize) => {
 
   BlogsModel.hasMany(ImagesModel, { foreignKey: "blog_id" });
   ImagesModel.belongsTo(BlogsModel, { foreignKey: "blog_id" });
+
+  OrderProduct.belongsTo(UserModel, { foreignKey: "id_user" });
+  UserModel.hasMany(OrderProduct, {
+    foreignKey: "id_user",
+  });
+
+  OrderProduct.belongsTo(ProductModel, { foreignKey: "id_product" });
+  ProductModel.hasMany(OrderProduct, { foreignKey: "id_product" });
 };
